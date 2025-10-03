@@ -30,7 +30,7 @@ Unlike other SVG tools that only merge items in a fixed row/column layout, Merge
 - **Small, fast, client-side** — most operations run in the browser.
 
 ## Live Demo & Preview
-[![DEMO](https://github.com/user-attachments/assets/deddc026-7810-40e4-8c96-f14d557f456b)](https://mergesvg.vercel.app/)
+[![DEMO](https://github.com/user-attachments/assets/c0b3a692-1ef8-4f9d-9bc8-b10dbf6ef39b)](https://mergesvg.vercel.app/)
 
 link: https://mergesvg.vercel.app/
 
