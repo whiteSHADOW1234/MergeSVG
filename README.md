@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MergeSVG
+[![Typing SVG](https://typingsvg.vercel.app/api/svg?width=700&pause=2000&backgroundColor=%23000000&lines=%5B%7B%22text%22%3A%22Drag+freely+and+merge+instantly%22%2C%22color%22%3A%22%23f0c93d%22%2C%22typingSpeed%22%3A0.1%2C%22deleteSpeed%22%3A0.05%7D%5D)](https://github.com/whiteSHADOW1234/TypingSVG)
 
-## Getting Started
+<p align="center">
+    <a href="https://nextjs.org/">
+        <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js">
+    </a>
+    <a href="https://reactjs.org/">
+        <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React">
+    </a>
+    <a href="https://www.typescriptlang.org/">
+        <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
+    </a>
+    <a href="https://tailwindcss.com/">
+        <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
+    </a>
+</p>
 
-First, run the development server:
+Unlike other SVG tools that only merge items in a fixed row/column layout, MergeSVG gives you a free-form canvas: place, rotate, scale and merge SVGs anywhere for pixel-perfect compositions.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
+- **Free-form drag & drop** — move SVGs around the canvas intuitively.
+- **Pixel-perfect alignment & snapping** — align precisely when needed.
+- **One-click merge / export** — export merged SVG (and raster when needed).
+- **Small, fast, client-side** — most operations run in the browser.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Live Demo & Preview
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+link: https://mergesvg.vercel.app/
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## How to use
+1. Visit the site: https://mergesvg.vercel.app/
+2. Upload one or more SVG files to the right sidebar.
+3. Drag and drop the uploaded SVGs onto the canvas.
+4. Move, resize, and tweak it.
+5. Click Export to download the merged SVG.
+6. Star this repo~ :smile: 
 
-## Learn More
+## Deploy it yourself
+Since this project is hosted on a free Vercel account, resources are limited. To ensure optimal performance and availability, it's recommended to deploy Typing SVG on your own. Here's how:
+1. Sign in or create a Vercel account at [vercel](https://vercel.com/).
 
-To learn more about Next.js, take a look at the following resources:
+2. Click the "Deploy to Vercel" button below
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FwhiteSHADOW1234%2FMergeSVG)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Follow the prompts to deploy the application to your Vercel account.
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
