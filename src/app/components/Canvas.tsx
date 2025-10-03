@@ -40,7 +40,7 @@ export const Canvas: React.FC<CanvasProps> = ({
   return (
     <div className="flex-1 p-6 overflow-auto">
       <div className="mb-4">
-        <h1 className="text-3xl font-bold text-gray-800">SVG Merger & Customizer</h1>
+        <h1 className="text-3xl font-bold text-gray-800">MergeSVG</h1>
         <p className="text-gray-600">Upload SVGs, arrange them on canvas, and export</p>
       </div>
 
