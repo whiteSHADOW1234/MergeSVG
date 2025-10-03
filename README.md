@@ -1,5 +1,10 @@
-# MergeSVG
-[![Typing SVG](https://typingsvg.vercel.app/api/svg?width=700&pause=2000&backgroundColor=%23000000&lines=%5B%7B%22text%22%3A%22Drag+freely+and+merge+instantly%22%2C%22color%22%3A%22%23f0c93d%22%2C%22typingSpeed%22%3A0.1%2C%22deleteSpeed%22%3A0.05%7D%5D)](https://github.com/whiteSHADOW1234/TypingSVG)
+<p  align="center">
+  <h1 align="center">MergeSVG</h1>
+</p>
+
+<p align="center">
+<a href="https://github.com/whiteSHADOW1234/TypingSVG"><img src="https://typingsvg.vercel.app/api/svg?width=700&pause=2000&backgroundColor=%23000000&lines=%5B%7B%22text%22%3A%22Drag+freely+and+merge+instantly%22%2C%22color%22%3A%22%23f0c93d%22%2C%22typingSpeed%22%3A0.1%2C%22deleteSpeed%22%3A0.05%7D%5D" alt="Typing SVG" /></a>
+</p>
 
 <p align="center">
     <a href="https://nextjs.org/">
@@ -25,6 +30,7 @@ Unlike other SVG tools that only merge items in a fixed row/column layout, Merge
 - **Small, fast, client-side** — most operations run in the browser.
 
 ## Live Demo & Preview
+[![DEMO](https://github.com/user-attachments/assets/deddc026-7810-40e4-8c96-f14d557f456b)](https://mergesvg.vercel.app/)
 
 link: https://mergesvg.vercel.app/
 
