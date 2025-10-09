@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Palette, Grid, Layers } from 'lucide-react';
+import Image from 'next/image';
 
 export interface CanvasBackgroundConfig {
   backgroundColor: string;
@@ -29,6 +30,13 @@ export const CanvasControlSidebar: React.FC<CanvasControlSidebarProps> = ({
     <div className="w-80 bg-white border-r border-gray-200 flex flex-col shadow-xl">
       <div className="p-4 border-b border-gray-200">
         <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+          <Image 
+            src="/icon.svg" 
+            alt="MergeSVG Logo" 
+            width={24} 
+            height={24}
+            className="w-6 h-6 -translate-y-[3px]"
+          />
           MergeSVG
         </h2>
         <p className="text-xs text-gray-600 mt-1">
