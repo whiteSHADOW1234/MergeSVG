@@ -5,6 +5,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { Canvas } from './components/Canvas';
 import { Sidebar } from './components/Sidebar';
+import { CanvasControlSidebar, CanvasBackgroundConfig } from './components/CanvasControlSidebar';
 import { useSVGUpload } from './hooks/useSVGUpload';
 import { useCanvasResize } from './hooks/useCanvasResize';
 import { useSVGManipulation } from './hooks/useSVGManipulation';
@@ -15,6 +16,14 @@ export default function SVGMergerApp() {
   const [uploadedSVGs, setUploadedSVGs] = useState<UploadedSVG[]>([]);
   const [canvasSVGs, setCanvasSVGs] = useState<CanvasSVG[]>([]);
   const [draggingFrom, setDraggingFrom] = useState<DraggingState | null>(null);
+  const [canvasBackgroundConfig, setCanvasBackgroundConfig] = useState<CanvasBackgroundConfig>({
+    backgroundColor: '#ffffff',
+    transparency: 1,
+    showGrid: false,
+    gridSize: 20,
+    gridColor: '#e5e7eb',
+    pattern: 'none',
+  });
   
   const canvasRef = useRef<HTMLDivElement>(null!);
   
@@ -77,12 +86,18 @@ export default function SVGMergerApp() {
 
   return (
     <div className="flex h-screen bg-gray-50">
+      <CanvasControlSidebar
+        config={canvasBackgroundConfig}
+        onConfigChange={setCanvasBackgroundConfig}
+      />
+      
       <Canvas
         canvasRef={canvasRef}
         canvasSize={canvasSize}
         isResizingCanvas={isResizingCanvas}
         canvasSVGs={canvasSVGs}
         selectedId={selectedId}
+        backgroundConfig={canvasBackgroundConfig}
         onCanvasDrop={handleCanvasDrop}
         onDragOver={handleDragOver}
         onCanvasClick={() => setSelectedId(null)}

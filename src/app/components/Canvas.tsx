@@ -5,6 +5,7 @@ import { GripVertical } from 'lucide-react';
 import { CanvasSVG as CanvasSVGComponent } from './CanvasSVG';
 import { CanvasSizeIndicator } from './CanvasSizeIndicator';
 import { CanvasSVG, CanvasSize } from '../types/svg';
+import { CanvasBackgroundConfig } from './CanvasControlSidebar';
 
 interface CanvasProps {
   canvasRef: React.RefObject<HTMLDivElement>;
@@ -12,6 +13,7 @@ interface CanvasProps {
   isResizingCanvas: boolean;
   canvasSVGs: CanvasSVG[];
   selectedId: number | null;
+  backgroundConfig: CanvasBackgroundConfig;
   onCanvasDrop: (e: React.DragEvent) => void;
   onDragOver: (e: React.DragEvent) => void;
   onCanvasClick: () => void;
@@ -28,6 +30,7 @@ export const Canvas: React.FC<CanvasProps> = ({
   isResizingCanvas,
   canvasSVGs,
   selectedId,
+  backgroundConfig,
   onCanvasDrop,
   onDragOver,
   onCanvasClick,
@@ -37,18 +40,70 @@ export const Canvas: React.FC<CanvasProps> = ({
   onSVGDelete,
   onCanvasResizeMouseDown,
 }) => {
+  // Generate background style based on config
+  const getBackgroundStyle = (): React.CSSProperties => {
+    const baseColor = backgroundConfig.backgroundColor;
+    const alpha = backgroundConfig.transparency;
+    
+    // Convert hex to rgba
+    const hexToRgba = (hex: string, alpha: number) => {
+      const r = parseInt(hex.slice(1, 3), 16);
+      const g = parseInt(hex.slice(3, 5), 16);
+      const b = parseInt(hex.slice(5, 7), 16);
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    };
+
+    const backgroundColor = hexToRgba(baseColor, alpha);
+
+    let backgroundImage = 'none';
+    let backgroundSize = 'auto';
+    let backgroundPosition = '0 0';
+
+    switch (backgroundConfig.pattern) {
+      case 'grid':
+        backgroundImage = `
+          linear-gradient(${backgroundConfig.gridColor} 1px, transparent 1px),
+          linear-gradient(90deg, ${backgroundConfig.gridColor} 1px, transparent 1px)
+        `;
+        backgroundSize = `${backgroundConfig.gridSize}px ${backgroundConfig.gridSize}px`;
+        break;
+      case 'dots':
+        backgroundImage = `radial-gradient(circle, ${backgroundConfig.gridColor} 1px, transparent 1px)`;
+        backgroundSize = `${backgroundConfig.gridSize}px ${backgroundConfig.gridSize}px`;
+        break;
+      case 'checkerboard':
+        const size = backgroundConfig.gridSize;
+        const halfSize = size / 2;
+        backgroundImage = `
+          linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
+          linear-gradient(-45deg, #e5e7eb 25%, transparent 25%),
+          linear-gradient(45deg, transparent 75%, #e5e7eb 75%),
+          linear-gradient(-45deg, transparent 75%, #e5e7eb 75%)
+        `;
+        backgroundSize = `${size}px ${size}px`;
+        backgroundPosition = `0 0, 0 ${halfSize}px, ${halfSize}px -${halfSize}px, -${halfSize}px 0px`;
+        break;
+    }
+
+    return {
+      backgroundColor,
+      backgroundImage,
+      backgroundSize,
+      backgroundPosition,
+    };
+  };
+
   return (
     <div className="flex-1 p-6 overflow-auto">
-      <div className="mb-4">
-        <h1 className="text-3xl font-bold text-gray-800">MergeSVG</h1>
-        <p className="text-gray-600">Upload SVGs, arrange them on canvas, and export</p>
-      </div>
-
       <div className="relative inline-block">
         <div
           ref={canvasRef}
-          className="relative bg-white border-2 border-gray-300 rounded-lg shadow-lg overflow-hidden"
-          style={{ width: canvasSize.width, height: canvasSize.height }}
+          className="relative border-2 border-gray-300 rounded-lg shadow-lg overflow-hidden"
+          style={{ 
+            width: canvasSize.width, 
+            height: canvasSize.height,
+            ...getBackgroundStyle(),
+          }}
           onDrop={onCanvasDrop}
           onDragOver={onDragOver}
           onClick={onCanvasClick}

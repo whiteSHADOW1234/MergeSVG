@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react';
 import { CanvasSize } from '../types/svg';
 
-export const useCanvasResize = (initialSize: CanvasSize = { width: 800, height: 600 }) => {
+export const useCanvasResize = (initialSize: CanvasSize = { width: 1600, height: 800 }) => {
   const [canvasSize, setCanvasSize] = useState<CanvasSize>(initialSize);
   const [isResizingCanvas, setIsResizingCanvas] = useState(false);
 
