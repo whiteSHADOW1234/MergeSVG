@@ -29,11 +29,10 @@ export const CanvasControlSidebar: React.FC<CanvasControlSidebarProps> = ({
     <div className="w-80 bg-white border-r border-gray-200 flex flex-col shadow-xl">
       <div className="p-4 border-b border-gray-200">
         <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-          <Palette size={20} />
-          Canvas Controls
+          MergeSVG
         </h2>
         <p className="text-xs text-gray-600 mt-1">
-          Customize the canvas background
+          Drag freely and merge instantly!
         </p>
       </div>
 
