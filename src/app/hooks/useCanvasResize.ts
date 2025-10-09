@@ -6,7 +6,7 @@ import { CanvasSize } from '../types/svg';
 const SIDEBAR_WIDTH = 320; // 80 * 4 (w-80 from Tailwind = 320px)
 const PADDING = 48; // 6 * 4 (p-6 = 24px per side, so 48px total horizontal)
 const MIN_CANVAS_WIDTH = 400;
-const MIN_CANVAS_HEIGHT = 300;
+const MIN_CANVAS_HEIGHT = 200;
 const DEFAULT_WIDTH = 1600;
 const DEFAULT_HEIGHT = 800;
 
@@ -53,7 +53,7 @@ export const useCanvasResize = () => {
       
       setCanvasSize({
         width: Math.max(400, startWidth + deltaX),
-        height: Math.max(300, startHeight + deltaY),
+        height: Math.max(200, startHeight + deltaY),
       });
     };
 
