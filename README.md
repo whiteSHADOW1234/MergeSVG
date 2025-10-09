@@ -3,9 +3,7 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/whiteSHADOW1234/MergeSVG">
     <img src="Banner.svg">
-    </a>
 </p>
 
 ## Why MergeSVG?
