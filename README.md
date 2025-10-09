@@ -21,7 +21,7 @@ After adding SVG badges and illustrations to my GitHub README, I often saw empty
 - **No more broken links** — The app embeds raw SVG content into a single file so external resources can’t break your layout.
 
 ## Live Demo & Preview
-[![DEMO](https://github.com/user-attachments/assets/305bfbbe-f391-4fa6-8823-452445c45239)](https://mergesvg.vercel.app/)
+[![DEMO](https://github.com/user-attachments/assets/708e1c11-ae52-42a6-8725-a21dadfd6535)](https://mergesvg.vercel.app/)
 
 link: https://mergesvg.vercel.app/
 
