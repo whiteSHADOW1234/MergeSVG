@@ -28,15 +28,15 @@ link: https://mergesvg.vercel.app/
 2. Upload one or more SVG files to the right sidebar.
 3. Drag and drop the uploaded SVGs onto the canvas.
 4. Customize the canvas background using the left control panel (optional).
-5. Move, resize, and arrange SVGs to create your composition.
+5. Move, and arrange SVGs to create your composition.
 6. Click "**Export Merged SVG**" to download your final merged SVG file.
-7. Star this repo if you find it useful! :smile: 
+7. Star this repo ~ :smile: 
 
 ## Deploy it yourself
 Since this project is hosted on a free Vercel account, resources are limited. To ensure optimal performance and availability, it's recommended to deploy MergeSVG on your own. Here's how:
 1. Sign in or create a Vercel account at [vercel](https://vercel.com/).
 
-2. Click the "Deploy to Vercel" button below
+2. Click the "**Deploy to Vercel**" button below
 
     [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FwhiteSHADOW1234%2FMergeSVG)
 
