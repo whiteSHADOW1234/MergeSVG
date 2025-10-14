@@ -48,30 +48,34 @@ export const exportMergedSVG = (canvasSVGs: CanvasSVG[], canvasSize: CanvasSize)
     
     if (!svgElement) return '';
     
-    // Get the original viewBox or dimensions
-    const viewBox = svgElement.getAttribute('viewBox');
+    // Get the original dimensions
     const originalDimensions = extractSVGDimensions(svg.content);
     
-    // Calculate the scale based on current size vs original size
+    // Calculate the scale factors based on current size vs original size
     const scaleX = svg.width / originalDimensions.width;
     const scaleY = svg.height / originalDimensions.height;
     
     // Clone the SVG element to modify it
     const clonedSvg = svgElement.cloneNode(true) as SVGSVGElement;
     
-    // Set explicit width and height to match the canvas size
-    clonedSvg.setAttribute('width', svg.width.toString());
-    clonedSvg.setAttribute('height', svg.height.toString());
+    // Remove any width/height attributes to prevent conflicts
+    clonedSvg.removeAttribute('width');
+    clonedSvg.removeAttribute('height');
     
-    // Keep the viewBox if it exists for proper scaling
-    if (viewBox) {
-      clonedSvg.setAttribute('viewBox', viewBox);
+    // Ensure we have a viewBox for proper scaling
+    if (!clonedSvg.hasAttribute('viewBox')) {
+      clonedSvg.setAttribute('viewBox', `0 0 ${originalDimensions.width} ${originalDimensions.height}`);
     }
     
-    // Wrap in a group with translation only (scaling is handled by SVG's width/height + viewBox)
-    const innerContent = clonedSvg.outerHTML;
+    // Get the inner content (everything inside the <svg> tag)
+    const innerContent = clonedSvg.innerHTML;
     
-    return `<g transform="translate(${svg.x},${svg.y})">\n${innerContent}\n</g>`;
+    // Create a group with translation and scaling transforms
+    return `<g transform="translate(${svg.x},${svg.y}) scale(${scaleX},${scaleY})">
+  <svg viewBox="0 0 ${originalDimensions.width} ${originalDimensions.height}" width="${originalDimensions.width}" height="${originalDimensions.height}">
+    ${innerContent}
+  </svg>
+</g>`;
   }).join('\n');
 
   const exportSVG = `<?xml version="1.0" encoding="utf-8"?>
