@@ -7,7 +7,7 @@
 </p>
 
 ## Why MergeSVG?
-After adding SVG badges and illustrations to my GitHub README, I often saw empty gaps when remote assets failed to load. Moreover, README’s limited Markdown makes it hard to get banner layouts to look exactly the way I want. So I built MergeSVG: a browser-based, drag-and-drop tool that merges SVGs into a single, self-contained file and lets you position and style graphics visually. In conclusion, your README will always appear exactly as you designed it.
+After adding SVG badges and illustrations to my GitHub README, I often saw empty gaps when remote assets failed to load. Moreover, README’s limited Markdown makes it hard to get banner layouts to look exactly the way I want. So I built MergeSVG: a browser-based, drag-and-drop tool that merges SVGs into a single, self-contained file and lets you position, resize and style graphics visually. In conclusion, your README will always appear exactly as you designed it.
 
 
 ## Features
@@ -28,7 +28,7 @@ link: https://mergesvg.vercel.app/
 2. Upload one or more SVG files to the right sidebar.
 3. Drag and drop the uploaded SVGs onto the canvas.
 4. Customize the canvas background using the left control panel (optional).
-5. Move, and arrange SVGs to create your composition.
+5. Move, resize, and arrange SVGs to create your composition.
 6. Click "**Export Merged SVG**" to download your final merged SVG file.
 7. Star this repo ~ :smile: 
 
