@@ -32,6 +32,42 @@ export const useSVGUpload = (
     }
   }, [setUploadedSVGs]);
 
+  const handleURLUpload = useCallback(async (url: string) => {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch SVG: ${response.status}`);
+      }
+      
+      const contentType = response.headers.get('content-type');
+      if (!contentType?.includes('svg') && !url.endsWith('.svg')) {
+        throw new Error('URL does not point to an SVG file');
+      }
+      
+      const content = await response.text();
+      
+      // Validate that the content is actually SVG
+      if (!content.trim().startsWith('<svg') && !content.includes('<svg')) {
+        throw new Error('Content is not a valid SVG file');
+      }
+      
+      const urlParts = url.split('/');
+      const fileName = urlParts[urlParts.length - 1] || 'remote-svg.svg';
+      const name = fileName.endsWith('.svg') ? fileName : fileName + '.svg';
+      
+      const newSVG: UploadedSVG = {
+        id: Date.now() + Math.random(),
+        name: name,
+        content: content,
+      };
+      
+      setUploadedSVGs((prev) => [...prev, newSVG]);
+    } catch (error) {
+      console.error('Error loading SVG from URL:', error);
+      throw error;
+    }
+  }, [setUploadedSVGs]);
+
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -48,6 +84,7 @@ export const useSVGUpload = (
   return {
     fileInputRef,
     handleFileUpload,
+    handleURLUpload,
     handleDrop,
     handleDragOver,
   };

@@ -124,6 +124,10 @@ export default function SVGMergerApp() {
     setUploadedSVGs((prev) => prev.filter((s) => s.id !== svgId));
   }, [setUploadedSVGs]);
 
+  const handleURLUpload = useCallback((newSVG: UploadedSVG) => {
+    setUploadedSVGs((prev) => [...prev, newSVG]);
+  }, [setUploadedSVGs]);
+
   const handleSVGClick = useCallback((e: React.MouseEvent, svgId: number) => {
     e.stopPropagation();
     setSelectedId(svgId);
@@ -164,6 +168,7 @@ export default function SVGMergerApp() {
         onSVGDelete={handleSVGDelete}
         onExport={handleExport}
         onExportJSON={handleExportJSON}
+        onURLUpload={handleURLUpload}
       />
     </div>
   );

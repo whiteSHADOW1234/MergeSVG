@@ -1,7 +1,7 @@
 // app/components/Sidebar.tsx
 
 import React, { useState } from 'react';
-import { Upload, Download, FileText, ChevronDown } from 'lucide-react';
+import { Upload, Trash2, Download, FileText, ChevronDown, Globe, Loader2, Plus } from 'lucide-react';
 import { SidebarSVGItem } from './SidebarSVGItem';
 import { UploadedSVG } from '../types/svg';
 
@@ -16,6 +16,7 @@ interface SidebarProps {
   onSVGDelete: (id: number) => void;
   onExport: () => void;
   onExportJSON: () => void;
+  onURLUpload: (svgData: UploadedSVG) => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -29,8 +30,67 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onSVGDelete,
   onExport,
   onExportJSON,
+  onURLUpload,
 }) => {
   const [showExportOptions, setShowExportOptions] = useState(false);
+  const [urlInput, setUrlInput] = useState('');
+  const [isLoadingURL, setIsLoadingURL] = useState(false);
+
+  const handleURLSubmit = async () => {
+    if (!urlInput.trim()) return;
+    
+    setIsLoadingURL(true);
+    try {
+      // Use our API route to fetch the SVG content (bypasses CORS)
+      const response = await fetch('/api/fetch-svg', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url: urlInput.trim() }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+      }
+      
+      // Extract filename from URL or use a default name
+      const urlObject = new URL(urlInput);
+      const pathSegments = urlObject.pathname.split('/');
+      let filename = pathSegments[pathSegments.length - 1];
+      
+      // If no filename or it doesn't end with .svg, create a default name
+      if (!filename || !filename.includes('.')) {
+        filename = `remote-svg-${Date.now()}.svg`;
+      } else if (!filename.endsWith('.svg')) {
+        filename += '.svg';
+      }
+      
+      const newSVG: UploadedSVG = {
+        id: Date.now() + Math.random(),
+        name: filename,
+        content: data.content,
+      };
+      
+      onURLUpload(newSVG);
+      setUrlInput(''); // Clear the input after successful upload
+      
+    } catch (error) {
+      console.error('Error fetching SVG from URL:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      alert(`Failed to fetch SVG from URL: ${errorMessage}`);
+    } finally {
+      setIsLoadingURL(false);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !isLoadingURL) {
+      handleURLSubmit();
+    }
+  };
   return (
     <div className="w-80 bg-white border-l border-gray-200 flex flex-col shadow-xl">
       <div
@@ -71,7 +131,39 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
       </div>
 
-      <div className="p-4 border-t border-gray-200">
+      <div className="p-4 border-t border-gray-200 space-y-4">
+        {/* URL Input Section */}
+        <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Add SVG from URL
+          </label>
+          <div className="flex gap-2">
+            <div className="flex-1 relative">
+              <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                type="url"
+                value={urlInput}
+                onChange={(e) => setUrlInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="https://example.com/image.svg"
+                className="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm"
+                disabled={isLoadingURL}
+              />
+            </div>
+            <button
+              onClick={handleURLSubmit}
+              disabled={isLoadingURL || !urlInput.trim()}
+              className="px-3 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-md transition-colors duration-200 flex items-center justify-center min-w-[40px]"
+            >
+              {isLoadingURL ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Plus className="h-4 w-4" />
+              )}
+            </button>
+          </div>
+        </div>
+
         <div className="relative">
           <button
             className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 flex items-center justify-center gap-2 font-medium"
