@@ -72,8 +72,8 @@ export default function SVGMergerApp() {
   }, [draggingFrom, uploadedSVGs, setCanvasSVGs, setSelectedId]);
 
   const handleExport = useCallback(() => {
-    exportMergedSVG(canvasSVGs, canvasSize);
-  }, [canvasSVGs, canvasSize]);
+    exportMergedSVG(canvasSVGs, canvasSize, canvasBackgroundConfig);
+  }, [canvasSVGs, canvasSize, canvasBackgroundConfig]);
 
   const handleExportJSON = useCallback(() => {
     if (canvasSVGs.length === 0) {
