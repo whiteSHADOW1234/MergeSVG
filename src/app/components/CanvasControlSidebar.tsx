@@ -1,7 +1,7 @@
 // app/components/CanvasControlSidebar.tsx
 
 import React, { useState, useEffect } from 'react';
-import { Palette, Grid, Layers, Star, Github } from 'lucide-react';
+import { Palette, Grid, Layers, Star, Github, ExternalLink, TextCursor  } from 'lucide-react';
 import Image from 'next/image';
 
 export interface CanvasBackgroundConfig {
@@ -345,6 +345,33 @@ export const CanvasControlSidebar: React.FC<CanvasControlSidebarProps> = ({
               }} />
             </button>
           </div>
+        </div>
+
+        {/* Related Projects */}
+        <div className="space-y-3 pt-4 border-t border-gray-200">
+          <label className="text-sm font-semibold text-gray-700">
+            Related Projects
+          </label>
+          
+          <a
+            href="https://github.com/whiteSHADOW1234/TypingSVG"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-between p-3 bg-gray-800 hover:bg-gray-900 rounded-lg transition-all duration-200 group hover:shadow-lg"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+                <TextCursor  className="text-gray-800" size={16} />
+              </div>
+              <h3 className="text-sm font-semibold text-white">
+                TypingSVG
+              </h3>
+            </div>
+            <ExternalLink 
+              size={16} 
+              className="text-gray-400 group-hover:text-white transition-colors duration-200" 
+            />
+          </a>
         </div>
       </div>
     </div>
