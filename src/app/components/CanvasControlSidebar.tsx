@@ -1,7 +1,7 @@
 // app/components/CanvasControlSidebar.tsx
 
-import React from 'react';
-import { Palette, Grid, Layers } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Palette, Grid, Layers, Star, Github } from 'lucide-react';
 import Image from 'next/image';
 
 export interface CanvasBackgroundConfig {
@@ -22,26 +22,85 @@ export const CanvasControlSidebar: React.FC<CanvasControlSidebarProps> = ({
   config,
   onConfigChange,
 }) => {
+  const [starCount, setStarCount] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   const handleChange = (updates: Partial<CanvasBackgroundConfig>) => {
     onConfigChange({ ...config, ...updates });
   };
 
+  // Fetch GitHub star count
+  useEffect(() => {
+    const fetchStarCount = async () => {
+      try {
+        const response = await fetch('https://api.github.com/repos/whiteSHADOW1234/MergeSVG');
+        const data = await response.json();
+        setStarCount(data.stargazers_count);
+      } catch (error) {
+        console.log('Failed to fetch star count:', error);
+        setStarCount(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchStarCount();
+  }, []);
+
   return (
     <div className="w-80 bg-white border-r border-gray-200 flex flex-col shadow-xl">
       <div className="p-4 border-b border-gray-200">
-        <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-          <Image 
-            src="/icon.svg" 
-            alt="MergeSVG Logo" 
-            width={24} 
-            height={24}
-            className="w-6 h-6 -translate-y-[3px]"
-          />
-          MergeSVG
-        </h2>
-        <p className="text-xs text-gray-600 mt-1">
-          Drag freely and merge instantly!
-        </p>
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+            <Image 
+              src="/icon.svg" 
+              alt="MergeSVG Logo" 
+              width={24} 
+              height={24}
+              className="w-6 h-6 -translate-y-[3px]"
+            />
+            MergeSVG
+          </h2>
+          
+          <div className="flex items-center gap-2">
+            <a
+              href="https://github.com/whiteSHADOW1234/MergeSVG"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-white border border-gray-300 hover:border-gray-400 hover:shadow-sm rounded-lg transition-all duration-200 group"
+              title="View on GitHub"
+            >
+              <Github 
+                size={14} 
+                className="text-gray-600 group-hover:text-gray-800 transition-colors duration-200" 
+              />
+              <span className="text-gray-700 font-medium text-xs">
+                Code
+              </span>
+            </a>
+            
+            <a
+              href="https://github.com/whiteSHADOW1234/MergeSVG"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 px-3 py-1.5 text-sm bg-white border border-gray-300 hover:border-gray-400 hover:shadow-sm rounded-lg transition-all duration-200 group"
+              title="Star on GitHub"
+            >
+              <Star 
+                size={14} 
+                className="text-gray-600 group-hover:text-yellow-500 transition-colors duration-200" 
+                fill="currentColor"
+              />
+              {isLoading ? (
+                <div className="w-4 h-4 bg-gray-200 rounded animate-pulse"></div>
+              ) : (
+                <span className="text-gray-700 font-medium text-xs">
+                  {starCount !== null ? starCount : '0'}
+                </span>
+              )}
+            </a>
+          </div>
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-6">
