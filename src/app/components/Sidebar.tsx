@@ -1,7 +1,7 @@
 // app/components/Sidebar.tsx
 
-import React from 'react';
-import { Upload, Download } from 'lucide-react';
+import React, { useState } from 'react';
+import { Upload, Download, FileText, ChevronDown } from 'lucide-react';
 import { SidebarSVGItem } from './SidebarSVGItem';
 import { UploadedSVG } from '../types/svg';
 
@@ -15,6 +15,7 @@ interface SidebarProps {
   onSVGDragEnd: () => void;
   onSVGDelete: (id: number) => void;
   onExport: () => void;
+  onExportJSON: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -27,7 +28,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onSVGDragEnd,
   onSVGDelete,
   onExport,
+  onExportJSON,
 }) => {
+  const [showExportOptions, setShowExportOptions] = useState(false);
   return (
     <div className="w-80 bg-white border-l border-gray-200 flex flex-col shadow-xl">
       <div
@@ -69,13 +72,57 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       <div className="p-4 border-t border-gray-200">
-        <button
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 flex items-center justify-center gap-2 font-medium"
-          onClick={onExport}
-        >
-          <Download size={18} />
-          Export Merged SVG
-        </button>
+        <div className="relative">
+          <button
+            className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 flex items-center justify-center gap-2 font-medium"
+            onClick={() => setShowExportOptions(!showExportOptions)}
+          >
+            <Download size={18} />
+            Export
+            <ChevronDown 
+              size={16} 
+              className={`transition-transform duration-200 ${showExportOptions ? 'rotate-180' : ''}`} 
+            />
+          </button>
+
+          {showExportOptions && (
+            <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
+              <button
+                className="w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center gap-3 transition-colors"
+                onClick={() => {
+                  onExport();
+                  setShowExportOptions(false);
+                }}
+              >
+                <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <Download size={16} className="text-blue-600" />
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-gray-900">Export as SVG</div>
+                  <div className="text-xs text-gray-500">Download merged SVG file</div>
+                </div>
+              </button>
+              
+              <div className="border-t border-gray-100"></div>
+              
+              <button
+                className="w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center gap-3 transition-colors"
+                onClick={() => {
+                  onExportJSON();
+                  setShowExportOptions(false);
+                }}
+              >
+                <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                  <FileText size={16} className="text-green-600" />
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-gray-900">Export as JSON</div>
+                  <div className="text-xs text-gray-500">Download layout configuration</div>
+                </div>
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

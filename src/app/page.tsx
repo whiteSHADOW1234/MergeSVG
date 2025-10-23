@@ -75,6 +75,51 @@ export default function SVGMergerApp() {
     exportMergedSVG(canvasSVGs, canvasSize);
   }, [canvasSVGs, canvasSize]);
 
+  const handleExportJSON = useCallback(() => {
+    if (canvasSVGs.length === 0) {
+      alert('No SVGs on canvas to export');
+      return;
+    }
+
+    const exportData = {
+      canvas: {
+        width: canvasSize.width,
+        height: canvasSize.height,
+        backgroundColor: canvasBackgroundConfig.backgroundColor,
+        transparency: canvasBackgroundConfig.transparency,
+        pattern: canvasBackgroundConfig.pattern,
+        gridSize: canvasBackgroundConfig.gridSize,
+        gridColor: canvasBackgroundConfig.gridColor,
+      },
+      elements: canvasSVGs.map((svg) => ({
+        id: svg.id,
+        sourceId: svg.sourceId,
+        name: svg.name,
+        position: {
+          x: svg.x,
+          y: svg.y,
+        },
+        dimensions: {
+          width: svg.width,
+          height: svg.height,
+        },
+        // Store SVG content as base64 to preserve it in JSON
+        content: btoa(svg.content),
+      })),
+      exportedAt: new Date().toISOString(),
+      version: '1.0',
+    };
+
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'mergesvg-layout.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [canvasSVGs, canvasSize, canvasBackgroundConfig]);
+
   const handleSVGDelete = useCallback((svgId: number) => {
     setUploadedSVGs((prev) => prev.filter((s) => s.id !== svgId));
   }, [setUploadedSVGs]);
@@ -118,6 +163,7 @@ export default function SVGMergerApp() {
         onSVGDragEnd={() => setDraggingFrom(null)}
         onSVGDelete={handleSVGDelete}
         onExport={handleExport}
+        onExportJSON={handleExportJSON}
       />
     </div>
   );
