@@ -4,6 +4,8 @@ export interface UploadedSVG {
   id: number;
   name: string;
   content: string;
+  // Optional: original remote URL if this SVG was added via URL
+  remoteUrl?: string;
 }
 
 export interface CanvasSVG {

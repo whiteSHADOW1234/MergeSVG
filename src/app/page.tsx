@@ -95,6 +95,8 @@ export default function SVGMergerApp() {
         id: svg.id,
         sourceId: svg.sourceId,
         name: svg.name,
+        // Include the original remote URL if available on the uploaded source
+        remoteUrl: uploadedSVGs.find((s) => s.id === svg.sourceId)?.remoteUrl,
         position: {
           x: svg.x,
           y: svg.y,
@@ -107,7 +109,8 @@ export default function SVGMergerApp() {
         content: btoa(svg.content),
       })),
       exportedAt: new Date().toISOString(),
-      version: '1.0',
+      // Schema version bumped due to remoteUrl field addition
+      version: '1.1',
     };
 
     const dataStr = JSON.stringify(exportData, null, 2);
@@ -118,7 +121,7 @@ export default function SVGMergerApp() {
     a.download = 'mergesvg-layout.json';
     a.click();
     URL.revokeObjectURL(url);
-  }, [canvasSVGs, canvasSize, canvasBackgroundConfig]);
+  }, [canvasSVGs, canvasSize, canvasBackgroundConfig, uploadedSVGs]);
 
   const handleSVGDelete = useCallback((svgId: number) => {
     setUploadedSVGs((prev) => prev.filter((s) => s.id !== svgId));

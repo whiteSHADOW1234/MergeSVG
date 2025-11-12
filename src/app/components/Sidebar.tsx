@@ -77,6 +77,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
           id: Date.now() + Math.random(),
           name: `datauri-svg-${Date.now()}.svg`,
           content: svgContent,
+          // No remoteUrl for data URIs
+          remoteUrl: undefined,
         };
         
         onURLUpload(newSVG);
@@ -115,6 +117,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           id: Date.now() + Math.random(),
           name: filename,
           content: data.content,
+          remoteUrl: input,
         };
         
         onURLUpload(newSVG);
