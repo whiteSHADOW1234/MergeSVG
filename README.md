@@ -20,7 +20,7 @@ After adding SVG badges and illustrations to my GitHub README, I often saw empty
 - **No more broken links** — The app embeds raw SVG content into a single file so external resources can’t break your layout.
 
 ## Live Demo & Preview
-[![DEMO](https://github.com/user-attachments/assets/708e1c11-ae52-42a6-8725-a21dadfd6535)](https://mergesvg.vercel.app/)
+[![DEMO](https://github.com/user-attachments/assets/b20b1aa9-1316-4ada-aa68-dde0fbcb2bf6)](https://mergesvg.vercel.app/)
 
 link: https://mergesvg.vercel.app/
 
@@ -30,7 +30,7 @@ link: https://mergesvg.vercel.app/
 3. Drag and drop the uploaded SVGs onto the canvas.
 4. Customize the canvas background using the left control panel (optional).
 5. Move, resize, and arrange SVGs to create your composition.
-6. Click "**Export Merged SVG**" to download your final merged SVG file.
+6. Click "**Export**" to download your final merged SVG file.
 7. Star this repo ~ :smile: 
 
 ## Deploy it yourself
