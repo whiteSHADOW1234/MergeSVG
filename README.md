@@ -11,6 +11,7 @@ After adding SVG badges and illustrations to my GitHub README, I often saw empty
 
 
 ## Features
+- **Flexible uploads** — Add SVGs via Data URIs, URLs, or raw .svg files (drag & drop or file picker).
 - **Design freedom without Markdown limitations** — No markdown or HTML syntax required; design intuitively with drag & drop.
 - **Customizable canvas background** — Control background color, transparency, and patterns (grid, dots, checkerboard).
 - **Real-time preview** — See your composition as you build it.
