@@ -36,6 +36,48 @@ export const extractSVGDimensions = (svgContent: string): SVGDimensions => {
   return { width: 100, height: 100 };
 };
 
+// Ensure the root <svg> has a proper viewBox and set explicit width/height.
+// This avoids using CSS transforms which can break transform-origin in animations.
+export const resizeRootSvgTo = (svgContent: string, targetWidth: number, targetHeight: number): string => {
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(svgContent, 'image/svg+xml');
+    const svg = doc.querySelector('svg');
+    if (!svg) return svgContent;
+
+    // Determine original dimensions
+    const widthAttr = svg.getAttribute('width');
+    const heightAttr = svg.getAttribute('height');
+
+    let vb = svg.getAttribute('viewBox');
+    if (!vb) {
+      let ow = 0;
+      let oh = 0;
+      if (widthAttr && heightAttr) {
+        ow = parseFloat(widthAttr);
+        oh = parseFloat(heightAttr);
+      } else {
+        const dims = extractSVGDimensions(svgContent);
+        ow = dims.width;
+        oh = dims.height;
+      }
+      if (Number.isFinite(ow) && Number.isFinite(oh) && ow > 0 && oh > 0) {
+        vb = `0 0 ${ow} ${oh}`;
+        svg.setAttribute('viewBox', vb);
+      }
+    }
+
+    // Set explicit size (in px)
+    svg.setAttribute('width', String(targetWidth));
+    svg.setAttribute('height', String(targetHeight));
+
+    const serializer = new XMLSerializer();
+    return serializer.serializeToString(doc.documentElement);
+  } catch (_err) {
+    return svgContent;
+  }
+};
+
 const generateBackgroundElements = (canvasSize: CanvasSize, backgroundConfig: CanvasBackgroundConfig): string => {
   const { backgroundColor, transparency, pattern, gridSize, gridColor } = backgroundConfig;
   
@@ -105,41 +147,29 @@ export const exportMergedSVG = (canvasSVGs: CanvasSVG[], canvasSize: CanvasSize,
     return;
   }
 
-  const mergedContent = canvasSVGs.map((svg) => {
+  const mergedContent = canvasSVGs.map((item) => {
     const parser = new DOMParser();
-    const doc = parser.parseFromString(svg.content, 'image/svg+xml');
-    const svgElement = doc.querySelector('svg');
-    
-    if (!svgElement) return '';
-    
-    // Get the original dimensions
-    const originalDimensions = extractSVGDimensions(svg.content);
-    
-    // Calculate the scale factors based on current size vs original size
-    const scaleX = svg.width / originalDimensions.width;
-    const scaleY = svg.height / originalDimensions.height;
-    
-    // Clone the SVG element to modify it
-    const clonedSvg = svgElement.cloneNode(true) as SVGSVGElement;
-    
-    // Remove any width/height attributes to prevent conflicts
-    clonedSvg.removeAttribute('width');
-    clonedSvg.removeAttribute('height');
-    
-    // Ensure we have a viewBox for proper scaling
-    if (!clonedSvg.hasAttribute('viewBox')) {
-      clonedSvg.setAttribute('viewBox', `0 0 ${originalDimensions.width} ${originalDimensions.height}`);
+    const doc = parser.parseFromString(item.content, 'image/svg+xml');
+    const root = doc.querySelector('svg');
+    if (!root) return '';
+
+    // Extract original viewBox (including origin), or derive from width/height
+    let viewBox = root.getAttribute('viewBox');
+    if (!viewBox) {
+      const dims = extractSVGDimensions(item.content);
+      viewBox = `0 0 ${dims.width} ${dims.height}`;
     }
-    
-    // Get the inner content (everything inside the <svg> tag)
-    const innerContent = clonedSvg.innerHTML;
-    
-    // Create a group with translation and scaling transforms
-    return `<g transform="translate(${svg.x},${svg.y}) scale(${scaleX},${scaleY})">
-  <svg viewBox="0 0 ${originalDimensions.width} ${originalDimensions.height}" width="${originalDimensions.width}" height="${originalDimensions.height}">
-    ${innerContent}
-  </svg>
-</g>`;
+
+    // Preserve preserveAspectRatio if present
+    const par = root.getAttribute('preserveAspectRatio');
+    const preserve = par ? ` preserveAspectRatio="${par}"` : '';
+
+    // Inner content of original SVG (keep <style>, animations, etc.)
+    const inner = root.innerHTML;
+
+    // Position with x/y, scale via width/height only – no transform
+    // This preserves animation geometry and transform-origins.
+    return `<svg x="${item.x}" y="${item.y}" width="${item.width}" height="${item.height}" viewBox="${viewBox}"${preserve}>\n${inner}\n</svg>`;
   }).join('\n');
 
   // Generate background if config is provided

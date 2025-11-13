@@ -3,7 +3,7 @@
 import React from 'react';
 import { Trash2 } from 'lucide-react';
 import { CanvasSVG as CanvasSVGType } from '../types/svg';
-import { extractSVGDimensions } from '../utils/svgExport';
+import { resizeRootSvgTo } from '../utils/svgExport';
 
 interface CanvasSVGProps {
   svg: CanvasSVGType;
@@ -22,8 +22,7 @@ export const CanvasSVG: React.FC<CanvasSVGProps> = ({
   onResize,
   onDelete,
 }) => {
-  const originalDimensions = extractSVGDimensions(svg.content);
-  const scale = svg.width / originalDimensions.width;
+  const resizedMarkup = resizeRootSvgTo(svg.content, svg.width, svg.height);
 
   return (
     <div
@@ -38,12 +37,8 @@ export const CanvasSVG: React.FC<CanvasSVGProps> = ({
       onClick={onClick}
     >
       <div
-        dangerouslySetInnerHTML={{ __html: svg.content }}
+        dangerouslySetInnerHTML={{ __html: resizedMarkup }}
         className="w-full h-full pointer-events-none"
-        style={{
-          transform: `scale(${scale})`,
-          transformOrigin: 'top left',
-        }}
       />
 
       {isSelected && (
