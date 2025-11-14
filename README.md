@@ -43,6 +43,9 @@ Since this project is hosted on a free Vercel account, resources are limited. To
 
 3. Follow the prompts to deploy the application to your Vercel account.
 
+## Contributing
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, standards, and PR guidelines. Feel free to open an issue for ideas, enhancements, bugs, or questions (include steps or a minimal SVG when relevant).
+
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
