@@ -43,6 +43,33 @@ Since this project is hosted on a free Vercel account, resources are limited. To
 
 3. Follow the prompts to deploy the application to your Vercel account.
 
+## Layout JSON (Optional Export)
+You can export a layout as JSON with this project; the chart below lists the schema keys.
+
+| Key | Type | Notes |
+|-----|------|-------|
+| `canvas.width` | number | Canvas width in px |
+| `canvas.height` | number | Canvas height in px |
+| `canvas.backgroundColor` | string | Hex color (e.g. `#ffffff`) |
+| `canvas.transparency` | number | Opacity 0–1 |
+| `canvas.pattern` | string | `none`, `grid`, `dots`, `checkerboard` |
+| `canvas.gridSize` | number | Grid spacing (if pattern uses it) |
+| `canvas.gridColor` | string | Hex color for grid/dots |
+| `elements[]` | array | List of placed SVG items |
+| `elements[].id` | number | Timestamp-based unique id |
+| `elements[].sourceId` | number | Original upload id (if tracked) |
+| `elements[].name` | string | File/display name |
+| `elements[].remoteUrl` | string | Original URL (optional) |
+| `elements[].position.x` | number | X position in px |
+| `elements[].position.y` | number | Y position in px |
+| `elements[].dimensions.width` | number | Element width in px |
+| `elements[].dimensions.height` | number | Element height in px |
+| `elements[].content` | string | Raw or base64 SVG (sanitized) |
+| `exportedAt` | string | ISO timestamp of export |
+| `version` | string | Schema/version tag |
+
+IDs can be replaced with UUIDs and always sanitize `content` when reloading.
+
 ## Contributing
 See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, standards, and PR guidelines. Feel free to open an issue for ideas, enhancements, bugs, or questions (include steps or a minimal SVG when relevant).
 
