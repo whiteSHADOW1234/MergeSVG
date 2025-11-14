@@ -2,6 +2,7 @@
 
 import { useCallback, useRef } from 'react';
 import { UploadedSVG } from '../types/svg';
+import { sanitizeAnimationOverrides } from '../utils/sanitize';
 
 export const useSVGUpload = (
   setUploadedSVGs: React.Dispatch<React.SetStateAction<UploadedSVG[]>>
@@ -15,7 +16,8 @@ export const useSVGUpload = (
       if (file.type === 'image/svg+xml' || file.name.endsWith('.svg')) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          const content = e.target?.result as string;
+          const raw = e.target?.result as string;
+          const content = sanitizeAnimationOverrides(raw);
           const newSVG: UploadedSVG = {
             id: Date.now() + Math.random(),
             name: file.name,
@@ -44,7 +46,8 @@ export const useSVGUpload = (
         throw new Error('URL does not point to an SVG file');
       }
       
-      const content = await response.text();
+      const raw = await response.text();
+      const content = sanitizeAnimationOverrides(raw);
       
       // Validate that the content is actually SVG
       if (!content.trim().startsWith('<svg') && !content.includes('<svg')) {
