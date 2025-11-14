@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Upload, Trash2, Download, FileText, ChevronDown, Globe, Loader2, Plus } from 'lucide-react';
 import { SidebarSVGItem } from './SidebarSVGItem';
 import { UploadedSVG } from '../types/svg';
+import { sanitizeAnimationOverrides } from '../utils/sanitize';
 
 interface SidebarProps {
   uploadedSVGs: UploadedSVG[];
@@ -76,7 +77,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         const newSVG: UploadedSVG = {
           id: Date.now() + Math.random(),
           name: `datauri-svg-${Date.now()}.svg`,
-          content: svgContent,
+          content: sanitizeAnimationOverrides(svgContent),
           // No remoteUrl for data URIs
           remoteUrl: undefined,
         };
@@ -116,7 +117,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         const newSVG: UploadedSVG = {
           id: Date.now() + Math.random(),
           name: filename,
-          content: data.content,
+          content: sanitizeAnimationOverrides(data.content),
           remoteUrl: input,
         };
         
