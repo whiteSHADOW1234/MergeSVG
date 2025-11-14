@@ -1,7 +1,7 @@
 // app/components/CanvasControlSidebar.tsx
 
 import React, { useState, useEffect } from 'react';
-import { Palette, Grid, Layers, Star, Github, ExternalLink, TextCursor  } from 'lucide-react';
+import { Palette, Grid, Layers, Star, Github, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 
 export interface CanvasBackgroundConfig {
@@ -354,17 +354,23 @@ export const CanvasControlSidebar: React.FC<CanvasControlSidebarProps> = ({
           </label>
           
           <a
-            href="https://github.com/whiteSHADOW1234/TypingSVG"
+            href="https://github.com/whiteSHADOW1234/UnBreakableSVG"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-between p-3 bg-gray-800 hover:bg-gray-900 rounded-lg transition-all duration-200 group hover:shadow-lg"
           >
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                <TextCursor  className="text-gray-800" size={16} />
+              <div className="w-8 h-8 bg-white rounded-lg overflow-hidden relative">
+                <Image
+                  src="/UnBreakableSVG.svg"
+                  alt="UnBreakableSVG Logo"
+                  fill
+                  sizes="32px"
+                  className="object-cover"
+                />
               </div>
               <h3 className="text-sm font-semibold text-white">
-                TypingSVG
+                UnBreakableSVG
               </h3>
             </div>
             <ExternalLink 
